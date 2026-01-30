@@ -4,7 +4,7 @@
 [![OpenClaw](https://img.shields.io/badge/OpenClaw-v2026.1.29-blue)](https://github.com/openclaw/openclaw)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Community Applications template for [OpenClaw](https://github.com/openclaw/openclaw) — a powerful, self-hosted AI assistant that runs locally on your Unraid server.
+Community Applications template for [OpenClaw](https://github.com/openclaw/openclaw) (formerly ClawdBot/MoltBot) — a powerful, self-hosted AI assistant that runs locally on your Unraid server.
 
 ![OpenClaw Dashboard](screenshot.png)
 

@@ -8,7 +8,7 @@
   <Privileged>false</Privileged>
   <Support>https://discord.com/invite/clawd</Support>
   <Project>https://github.com/openclaw/openclaw</Project>
-  <Overview>OpenClaw is a powerful AI assistant gateway that connects Claude and other LLMs to messaging platforms like Discord, Telegram, WhatsApp, and more. Features include file access, shell commands, web browsing, cron jobs, and a web-based Control UI.&#xD;&#xD;IMPORTANT: To access the Control UI, add your token to the URL: http://YOUR-IP:18789/?token=YOUR-GATEWAY-TOKEN</Overview>
+  <Overview>OpenClaw (formerly ClawdBot/MoltBot) is a powerful AI assistant gateway that connects Claude and other LLMs to messaging platforms like Discord, Telegram, WhatsApp, and more. Features include file access, shell commands, web browsing, cron jobs, and a web-based Control UI.&#xD;&#xD;IMPORTANT: To access the Control UI, add your token to the URL: http://YOUR-IP:18789/?token=YOUR-GATEWAY-TOKEN</Overview>
   <Category>Productivity: Tools: AI</Category>
   <WebUI>http://[IP]:[PORT:18789]</WebUI>
   <Icon>https://raw.githubusercontent.com/jdhill777/openclaw-unraid/master/openclaw-icon.png</Icon>
@@ -16,7 +16,7 @@
   <PostArgs>sh -c "mkdir -p /root/.openclaw; echo '{\"gateway\":{\"mode\":\"local\",\"bind\":\"lan\",\"controlUi\":{\"allowInsecureAuth\":true},\"auth\":{\"mode\":\"token\"}}}' > /root/.openclaw/openclaw.json; node dist/index.js gateway --bind lan"</PostArgs>
   <DonateText>Support OpenClaw Development</DonateText>
   <DonateLink>https://github.com/sponsors/openclaw</DonateLink>
-  <Description>OpenClaw is a powerful AI assistant gateway that connects Claude and other LLMs to messaging platforms like Discord, Telegram, WhatsApp, and more. Features include file access, shell commands, web browsing, cron jobs, and a web-based Control UI. To access the Control UI, add your token to the URL: http://YOUR-IP:18789/?token=YOUR-GATEWAY-TOKEN</Description>
+  <Description>OpenClaw (formerly ClawdBot/MoltBot) is a powerful AI assistant gateway that connects Claude and other LLMs to messaging platforms like Discord, Telegram, WhatsApp, and more. Features include file access, shell commands, web browsing, cron jobs, and a web-based Control UI. To access the Control UI, add your token to the URL: http://YOUR-IP:18789/?token=YOUR-GATEWAY-TOKEN</Description>
 
   <!-- Volume Mappings -->
   <Config Name="Config Path" Target="/root/.openclaw" Default="/mnt/user/appdata/openclaw/config" Mode="rw" Description="Path to store OpenClaw configuration files" Type="Path" Display="always" Required="true" Mask="false"/>
