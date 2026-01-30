@@ -24,7 +24,7 @@
   <Config Name="Projects Path" Target="/projects" Default="/mnt/user/appdata/openclaw/projects" Mode="rw" Description="Optional path for coding projects" Type="Path" Display="advanced" Required="false" Mask="false"/>
 
   <!-- Required Settings -->
-  <Config Name="Gateway Token" Target="OPENCLAW_GATEWAY_TOKEN" Default="" Mode="" Description="Secret token for authentication. Generate with: openssl rand -hex 24. To access the Control UI, append this token to the URL: http://IP:18789/?token=YOUR_TOKEN_HERE" Type="Variable" Display="always" Required="true" Mask="true"/>
+  <Config Name="Gateway Token" Target="OPENCLAW_GATEWAY_TOKEN" Default="" Mode="" Description="Secret token for authentication. Recommend generating with: openssl rand -hex 24 (but can be any value). To access the Control UI, append this token to the URL: http://IP:18789/?token=YOUR_TOKEN_HERE" Type="Variable" Display="always" Required="true" Mask="true"/>
   <Config Name="Timezone" Target="TZ" Default="America/Chicago" Mode="" Description="Your timezone (e.g., America/New_York, Europe/London, America/Los_Angeles)" Type="Variable" Display="always" Required="false" Mask="false"/>
 
   <!-- LLM API Keys (fill in at least one) -->

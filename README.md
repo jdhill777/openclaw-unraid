@@ -58,7 +58,7 @@ Connect to all your favorite platforms from one assistant:
 1. Search for **OpenClaw** in Community Applications
 2. Click **Install**
 3. Fill in the form:
-   - **Gateway Token**: Generate with `openssl rand -hex 24` or create a secure password
+   - **Gateway Token**: Recommend generating with `openssl rand -hex 24`, but can be any value
    - **LLM API Key**: Your Anthropic, OpenRouter, or other provider key
 4. Click **Apply**
 
