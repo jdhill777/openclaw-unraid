@@ -248,19 +248,8 @@ For those who prefer the command line:
 mkdir -p /mnt/user/appdata/openclaw/config
 mkdir -p /mnt/user/appdata/openclaw/workspace
 
-# Create config
-cat > /mnt/user/appdata/openclaw/config/openclaw.json << 'EOF'
-{
-  "gateway": {
-    "mode": "local",
-    "bind": "lan",
-    "controlUi": { "allowInsecureAuth": true },
-    "auth": { "mode": "token" }
-  }
-}
-EOF
-
 # Run container (replace YOUR_TOKEN and YOUR_API_KEY)
+# Config is created automatically on first run
 docker run -d \
   --name OpenClaw \
   --network bridge \
@@ -273,7 +262,7 @@ docker run -d \
   -e OPENCLAW_GATEWAY_TOKEN=YOUR_TOKEN \
   -e ANTHROPIC_API_KEY=sk-ant-YOUR_KEY \
   ghcr.io/openclaw/openclaw:latest \
-  sh -c "node dist/index.js gateway --bind lan"
+  sh -c "mkdir -p /root/.openclaw; [ -f /root/.openclaw/openclaw.json ] || echo '{\"gateway\":{\"mode\":\"local\",\"bind\":\"lan\",\"controlUi\":{\"allowInsecureAuth\":true},\"auth\":{\"mode\":\"token\"}}}' > /root/.openclaw/openclaw.json; exec node dist/index.js gateway --bind lan"
 ```
 
 **Required tokens:**
