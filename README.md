@@ -65,42 +65,27 @@ Connect to all your favorite platforms from one assistant:
 
 ### Using Claude Pro/Max Subscription (Alternative)
 
-If you have a Claude Pro ($20/mo) or Claude Max subscription, you can use that instead of buying API credits. This requires authenticating via Claude Code CLI on a device with a browser, then copying the credentials to Unraid.
+Already have a Claude Pro ($20/mo) or Max subscription? You can get a subscription-based token from Claude Code instead of buying API credits.
 
-**On your Mac/PC (not Unraid):**
+**On your Mac or PC (not Unraid):**
 
-1. Install Claude Code CLI:
+1. Make sure you have [Claude Code](https://claude.ai/code) installed and logged in with your Pro/Max account
+2. Run this command:
    ```bash
-   npm install -g @anthropic-ai/claude-code
+   claude setup-token
    ```
-
-2. Log in with your Anthropic account:
-   ```bash
-   claude login
-   ```
-
-3. A browser window opens — sign in with the account that has your Pro/Max subscription
-
-4. After successful auth, find your credentials:
-   ```bash
-   cat ~/.claude/.credentials.json
-   ```
-
-5. Copy the credentials file to your Unraid server:
-   ```bash
-   scp ~/.claude/.credentials.json root@YOUR-UNRAID-IP:/mnt/user/appdata/openclaw/config/.credentials.json
-   ```
+3. Follow the prompts — it will output a token (starts with `sk-ant-oat01-...`)
+4. Copy that token
 
 **On Unraid:**
 
-6. Make sure the credentials are in the config folder:
-   ```bash
-   ls -la /mnt/user/appdata/openclaw/config/.credentials.json
-   ```
+5. In the OpenClaw template, set the environment variable:
+   - **Name:** `CLAUDE_CODE_OAUTH_TOKEN`
+   - **Value:** (paste the token from step 3)
 
-7. Restart the OpenClaw container — it should now use your subscription instead of API credits
+That's it! OpenClaw will use your subscription instead of API credits.
 
-> **Tip:** With subscription auth, you don't need to set `ANTHROPIC_API_KEY`. If both are present, the API key takes precedence.
+> **Tip:** The token expires periodically. If you get auth errors, run `claude setup-token` again to get a fresh token.
 
 ## 🚀 Quick Start
 
