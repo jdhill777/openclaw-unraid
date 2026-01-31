@@ -208,11 +208,28 @@ docker logs OpenClaw 2>&1 | tail -50
 
 ## 🖥️ Install Before Community Apps Approval
 
-Not in CA yet? No problem — two ways to get running now:
+Not in CA yet? No problem — here's how to get running now:
 
-### Option 1: Add Template Repository (Recommended)
+### Option 1: Download Template File (Unraid 6.10+)
 
-This gives you the same install experience as Community Apps:
+Template Repositories were removed in Unraid 6.10. Use this method instead:
+
+1. Download [openclaw.xml](https://raw.githubusercontent.com/jdhill777/openclaw-unraid/master/openclaw.xml)
+2. Copy it to your Unraid flash drive:
+   ```
+   /boot/config/plugins/dockerMan/templates-user/openclaw.xml
+   ```
+3. Go to **Docker** tab → **Add Container**
+4. Select **OpenClaw** from the Template dropdown
+5. Fill in your settings:
+   - **Gateway Token**: Any secret value (or generate with `openssl rand -hex 24`)
+   - **Anthropic API Key**: Get from [console.anthropic.com](https://console.anthropic.com) (recommended)
+   - Or use OpenRouter/OpenAI/Gemini/Groq instead
+6. Click **Apply**
+
+### Option 2: Add Template Repository (Unraid 6.9 and earlier)
+
+If you're on Unraid 6.9.x or earlier, you can add the template repo directly:
 
 1. Go to **Docker** tab in Unraid
 2. Click **Add Container**
@@ -220,13 +237,9 @@ This gives you the same install experience as Community Apps:
 4. Add this URL: `https://github.com/jdhill777/openclaw-unraid`
 5. Click **Save**
 6. Now select **OpenClaw** from the Template dropdown
-7. Fill in your settings:
-   - **Gateway Token**: Any secret value (or generate with `openssl rand -hex 24`)
-   - **Anthropic API Key**: Get from [console.anthropic.com](https://console.anthropic.com) (recommended)
-   - Or use OpenRouter/OpenAI/Gemini/Groq instead
-8. Click **Apply**
+7. Fill in your settings and click **Apply**
 
-### Option 2: Manual Docker Run
+### Option 3: Manual Docker Run
 
 For those who prefer the command line:
 
