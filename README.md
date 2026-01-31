@@ -38,7 +38,7 @@ Connect to all your favorite platforms from one assistant:
 - 🖥️ **macOS Menu Bar App** — Quick access companion
 
 ### Your Data, Your Server
-**100% local.** No cloud required. Your conversations, files, and data stay on your Unraid server.
+Your files, workspace, and configuration stay **100% on your Unraid server**. Conversations are processed through your chosen LLM provider's API (Anthropic, OpenAI, etc.) but nothing is stored on third-party servers beyond their standard API processing. For fully local operation, you can use [Ollama](https://ollama.ai) with local models.
 
 ## 📋 Requirements
 
