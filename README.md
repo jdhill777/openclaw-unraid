@@ -170,9 +170,29 @@ docker restart OpenClaw
 docker logs OpenClaw 2>&1 | tail -50
 ```
 
-## 🖥️ Manual Installation
+## 🖥️ Install Before Community Apps Approval
 
-If not using the CA template:
+Not in CA yet? No problem — two ways to get running now:
+
+### Option 1: Add Template Repository (Recommended)
+
+This gives you the same install experience as Community Apps:
+
+1. Go to **Docker** tab in Unraid
+2. Click **Add Container**
+3. At the bottom, click **Template repositories**
+4. Add this URL: `https://github.com/jdhill777/openclaw-unraid`
+5. Click **Save**
+6. Now select **OpenClaw** from the Template dropdown
+7. Fill in your settings:
+   - **Gateway Token**: Any secret value (or generate with `openssl rand -hex 24`)
+   - **Anthropic API Key**: Get from [console.anthropic.com](https://console.anthropic.com) (recommended)
+   - Or use OpenRouter/OpenAI/Gemini/Groq instead
+8. Click **Apply**
+
+### Option 2: Manual Docker Run
+
+For those who prefer the command line:
 
 ```bash
 # Create directories
@@ -191,20 +211,30 @@ cat > /mnt/user/appdata/openclaw/config/openclaw.json << 'EOF'
 }
 EOF
 
-# Run container
+# Run container (replace YOUR_TOKEN and YOUR_API_KEY)
 docker run -d \
   --name OpenClaw \
-  --network host \
+  --network bridge \
   --user root \
+  --hostname OpenClaw \
   --restart unless-stopped \
+  -p 18789:18789 \
   -v /mnt/user/appdata/openclaw/config:/root/.openclaw:rw \
   -v /mnt/user/appdata/openclaw/workspace:/home/node/clawd:rw \
-  -e TZ=America/Chicago \
-  -e OPENCLAW_GATEWAY_TOKEN=your-secret-token \
-  -e ANTHROPIC_API_KEY=sk-ant-... \
+  -e OPENCLAW_GATEWAY_TOKEN=YOUR_TOKEN \
+  -e ANTHROPIC_API_KEY=sk-ant-YOUR_KEY \
   ghcr.io/openclaw/openclaw:latest \
-  node dist/index.js gateway --bind lan
+  sh -c "node dist/index.js gateway --bind lan"
 ```
+
+**Required tokens:**
+- `OPENCLAW_GATEWAY_TOKEN` — Any secret value you choose. You'll need this to access the Control UI.
+- At least one LLM API key:
+  - `ANTHROPIC_API_KEY` — **Recommended.** Get from [console.anthropic.com](https://console.anthropic.com)
+  - `OPENROUTER_API_KEY` — Access 100+ models. Get from [openrouter.ai](https://openrouter.ai)
+  - `OPENAI_API_KEY` — GPT models. Get from [platform.openai.com](https://platform.openai.com)
+  - `GEMINI_API_KEY` — Google Gemini. Get from [aistudio.google.com](https://aistudio.google.com)
+  - `GROQ_API_KEY` — Fast Llama/Mixtral. Get from [console.groq.com](https://console.groq.com)
 
 ## 📚 Resources
 
