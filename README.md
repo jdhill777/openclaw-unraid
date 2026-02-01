@@ -161,6 +161,7 @@ This table documents all settings available in the Unraid template:
 | Telegram Bot Token | Variable | ❌ Optional | — | Telegram bot from [@BotFather](https://t.me/BotFather). Can also configure via Control UI |
 | **Advanced** |
 | Gateway Port | Variable | ❌ Optional | `18789` | Override if port 18789 is in use |
+| PATH | Variable | ❌ Optional | (auto-set) | System PATH including Homebrew. Do not modify unless you know what you're doing. |
 | Web Search API Key | Variable | ❌ Optional | — | Brave Search API for web search (2000 free/month at [brave.com/search/api](https://brave.com/search/api)) |
 
 ### Volume Mounts
@@ -171,6 +172,18 @@ This table documents all settings available in the Unraid template:
 | `/home/node/clawd` | `/mnt/user/appdata/openclaw/workspace` | Agent workspace (files, memory, AGENTS.md, etc.) |
 | `/projects` | `/mnt/user/appdata/openclaw/projects` | Optional coding projects folder |
 | `/home/linuxbrew/.linuxbrew` | `/mnt/user/appdata/openclaw/homebrew` | Homebrew packages (persists brew/go/npm installs) |
+
+### Homebrew & Skills Support
+
+OpenClaw includes a [Skills system](https://docs.openclaw.ai/skills) that extends functionality with plugins. Some skills require tools like `go`, `npm`, or other brew-installable packages.
+
+**How it works:**
+- First container start automatically installs Homebrew (~60 seconds)
+- Homebrew and installed packages persist in the `Homebrew Path` volume
+- Subsequent starts skip installation and boot fast
+- The `PATH` environment variable is pre-configured so OpenClaw can find brew-installed tools
+
+**Known limitation:** Skills that require Go (like `blogwatcher`, `blucli`) may timeout on first install while Go is being downloaded via Homebrew. This is due to OpenClaw's skill installer timeout. Simply click **Install** again and it will succeed since Go is now cached.
 
 ### Config File Reference (`openclaw.json`)
 
@@ -364,8 +377,9 @@ docker run -d \
   -v /mnt/user/appdata/openclaw/homebrew:/home/linuxbrew/.linuxbrew:rw \
   -e OPENCLAW_GATEWAY_TOKEN=YOUR_TOKEN \
   -e ANTHROPIC_API_KEY=sk-ant-YOUR_KEY \
+  -e PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/root/.bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
   ghcr.io/openclaw/openclaw:latest \
-  sh -c "mkdir -p /root/.openclaw /home/linuxbrew; [ -f /root/.openclaw/openclaw.json ] || echo '{\"gateway\":{\"mode\":\"local\",\"bind\":\"lan\",\"controlUi\":{\"allowInsecureAuth\":true},\"auth\":{\"mode\":\"token\"}}}' > /root/.openclaw/openclaw.json; [ -x /home/linuxbrew/.linuxbrew/bin/brew ] || { echo Installing Homebrew... && NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash; }; export PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:\$PATH; exec node dist/index.js gateway --bind lan"
+  sh -c "mkdir -p /root/.openclaw /home/linuxbrew; [ -f /root/.openclaw/openclaw.json ] || echo '{\"gateway\":{\"mode\":\"local\",\"bind\":\"lan\",\"controlUi\":{\"allowInsecureAuth\":true},\"auth\":{\"mode\":\"token\"}}}' > /root/.openclaw/openclaw.json; [ -x /home/linuxbrew/.linuxbrew/bin/brew ] || { echo Installing Homebrew... && NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash; }; exec node dist/index.js gateway --bind lan"
 ```
 
 > **Note:** First start will take ~60 seconds to install Homebrew. Subsequent starts are fast since Homebrew persists in the volume.
