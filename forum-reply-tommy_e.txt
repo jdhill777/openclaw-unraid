@@ -1,9 +1,0 @@
-Hey Tommy_E! Great catch on the config overwrite issue — you were spot on.
-
-I've pushed your fix to the template. The PostArgs now checks if the config exists before writing:
-
-[ -f /root/.openclaw/openclaw.json ] || echo '{...}' > /root/.openclaw/openclaw.json
-
-So configs will persist across container restarts now. Really appreciate you digging into this and suggesting the fix!
-
-Updated template: https://github.com/jdhill777/openclaw-unraid
