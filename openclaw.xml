@@ -14,7 +14,7 @@
   <Icon>https://raw.githubusercontent.com/jdhill777/openclaw-unraid/master/openclaw-icon.png</Icon>
   <Screenshot>https://raw.githubusercontent.com/jdhill777/openclaw-unraid/master/screenshot.png</Screenshot>
   <ExtraParams>--user root --hostname OpenClaw</ExtraParams>
-  <PostArgs>sh -c "mkdir -p /root/.openclaw /home/linuxbrew; [ -f /root/.openclaw/openclaw.json ] || echo '{\"gateway\":{\"mode\":\"local\",\"bind\":\"lan\",\"controlUi\":{\"allowInsecureAuth\":true},\"auth\":{\"mode\":\"token\"}}}' > /root/.openclaw/openclaw.json; [ -x /home/linuxbrew/.linuxbrew/bin/brew ] || { echo Installing Homebrew... &amp;&amp; NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash; }; export PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH; exec node dist/index.js gateway --bind lan"</PostArgs>
+  <PostArgs>sh -c "mkdir -p /root/.openclaw /home/linuxbrew; [ -f /root/.openclaw/openclaw.json ] || echo '{\"gateway\":{\"mode\":\"local\",\"bind\":\"lan\",\"controlUi\":{\"allowInsecureAuth\":true},\"auth\":{\"mode\":\"token\"}}}' > /root/.openclaw/openclaw.json; [ -x /home/linuxbrew/.linuxbrew/bin/brew ] || { echo Installing Homebrew... &amp;&amp; NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash; }; exec node dist/index.js gateway --bind lan"</PostArgs>
   <DonateText>Support the template maintainer</DonateText>
   <DonateLink>https://buymeacoffee.com/jdhill777</DonateLink>
   <Description>OpenClaw is a powerful AI assistant gateway that connects Claude and other LLMs to messaging platforms like Discord, Telegram, WhatsApp, and more. Features include file access, shell commands, web browsing, cron jobs, and a web-based Control UI. To access the Control UI, add your token to the URL: http://YOUR-IP:18789/?token=YOUR-GATEWAY-TOKEN</Description>
@@ -47,5 +47,6 @@
 
   <!-- Advanced Settings -->
   <Config Name="Gateway Port" Target="OPENCLAW_GATEWAY_PORT" Default="18789" Mode="" Description="Internal gateway port. Change if 18789 is already in use (must match Control UI Port)." Type="Variable" Display="advanced" Required="false" Mask="false">18789</Config>
+  <Config Name="PATH" Target="PATH" Default="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/root/.bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" Mode="" Description="System PATH including Homebrew. Do not modify unless you know what you're doing." Type="Variable" Display="advanced" Required="false" Mask="false">/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/root/.bun/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin</Config>
   <Config Name="Web Search API Key" Target="BRAVE_API_KEY" Default="" Mode="" Description="(Optional) Brave Search API key for web search. Free tier: 2000 queries/month at brave.com/search/api" Type="Variable" Display="advanced" Required="false" Mask="true"/>
 </Container>
