@@ -9,6 +9,22 @@ Community Applications template for [OpenClaw](https://github.com/openclaw/openc
 
 ![OpenClaw Dashboard](screenshot.png)
 
+## 📑 Table of Contents
+
+- [What is OpenClaw?](#-what-is-openclaw)
+- [Requirements](#-requirements)
+- [Quick Start](#-quick-start)
+- [Configuration](#️-configuration)
+- [Updating](#-updating)
+- [Troubleshooting](#-troubleshooting)
+- [Install Before CA Approval](#️-install-before-community-apps-approval)
+- [Resources](#-resources)
+- [License](#-license)
+- [Support the Maintainer](#-support-the-maintainer)
+- [Credits](#-credits)
+
+---
+
 ## 🦞 What is OpenClaw?
 
 OpenClaw is a personal AI assistant you run on your own devices. It answers you on the channels you already use and keeps your data completely local.
@@ -322,40 +338,31 @@ docker logs OpenClaw 2>&1 | tail -50
 
 ## 🖥️ Install Before Community Apps Approval
 
-Not in CA yet? No problem — here's how to get running now:
+Not in CA yet? No problem — install via terminal in under a minute:
 
-### Option 1: Download Template File (Unraid 6.10+)
+**Step 1:** SSH into your Unraid server and run:
+```bash
+curl -o /boot/config/plugins/dockerMan/templates-user/openclaw.xml \
+  https://raw.githubusercontent.com/jdhill777/openclaw-unraid/master/openclaw.xml
+```
 
-Template Repositories were removed in Unraid 6.10. Use this method instead:
+**Step 2:** Refresh your browser on the Unraid Docker page
 
-1. Download [openclaw.xml](https://raw.githubusercontent.com/jdhill777/openclaw-unraid/master/openclaw.xml)
-2. Copy it to your Unraid flash drive:
-   ```
-   /boot/config/plugins/dockerMan/templates-user/openclaw.xml
-   ```
-3. Go to **Docker** tab → **Add Container**
-4. Select **OpenClaw** from the Template dropdown
-5. Fill in your settings:
-   - **Gateway Token**: Any secret value (or generate with `openssl rand -hex 24`)
-   - **Anthropic API Key**: Get from [console.anthropic.com](https://console.anthropic.com) (recommended)
-   - Or use OpenRouter/OpenAI/Gemini/Groq instead
-6. Click **Apply**
+**Step 3:** Go to **Docker** → **Add Container** → Select **OpenClaw** from the Template dropdown
 
-### Option 2: Add Template Repository (Unraid 6.9 and earlier)
+**Step 4:** Fill in your settings:
+- **Gateway Token**: Any secret value (or generate with `openssl rand -hex 24`)
+- **Anthropic API Key**: Get from [console.anthropic.com](https://console.anthropic.com) (recommended)
+- Or use OpenRouter/OpenAI/Gemini/Groq instead
 
-If you're on Unraid 6.9.x or earlier, you can add the template repo directly:
+**Step 5:** Click **Apply** — done!
 
-1. Go to **Docker** tab in Unraid
-2. Click **Add Container**
-3. At the bottom, click **Template repositories**
-4. Add this URL: `https://github.com/jdhill777/openclaw-unraid`
-5. Click **Save**
-6. Now select **OpenClaw** from the Template dropdown
-7. Fill in your settings and click **Apply**
+> **Note:** First start takes ~60 seconds to install Homebrew for skills support. Subsequent starts are fast.
 
-### Option 3: Manual Docker Run
+<details>
+<summary><strong>Advanced: Manual Docker Run</strong></summary>
 
-For those who prefer the command line:
+For those who prefer the command line without using templates:
 
 ```bash
 # Create directories
@@ -364,7 +371,6 @@ mkdir -p /mnt/user/appdata/openclaw/workspace
 mkdir -p /mnt/user/appdata/openclaw/homebrew
 
 # Run container (replace YOUR_TOKEN and YOUR_API_KEY)
-# Config and Homebrew are set up automatically on first run
 docker run -d \
   --name OpenClaw \
   --network bridge \
@@ -382,16 +388,7 @@ docker run -d \
   sh -c "mkdir -p /root/.openclaw /home/linuxbrew; [ -f /root/.openclaw/openclaw.json ] || echo '{\"gateway\":{\"mode\":\"local\",\"bind\":\"lan\",\"controlUi\":{\"allowInsecureAuth\":true},\"auth\":{\"mode\":\"token\"}}}' > /root/.openclaw/openclaw.json; [ -x /home/linuxbrew/.linuxbrew/bin/brew ] || { echo Installing Homebrew... && NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash; }; exec node dist/index.js gateway --bind lan"
 ```
 
-> **Note:** First start will take ~60 seconds to install Homebrew. Subsequent starts are fast since Homebrew persists in the volume.
-
-**Required tokens:**
-- `OPENCLAW_GATEWAY_TOKEN` — Any secret value you choose. You'll need this to access the Control UI.
-- At least one LLM API key:
-  - `ANTHROPIC_API_KEY` — **Recommended.** Get from [console.anthropic.com](https://console.anthropic.com)
-  - `OPENROUTER_API_KEY` — Access 100+ models. Get from [openrouter.ai](https://openrouter.ai)
-  - `OPENAI_API_KEY` — GPT models. Get from [platform.openai.com](https://platform.openai.com)
-  - `GEMINI_API_KEY` — Google Gemini. Get from [aistudio.google.com](https://aistudio.google.com)
-  - `GROQ_API_KEY` — Fast Llama/Mixtral. Get from [console.groq.com](https://console.groq.com)
+</details>
 
 ## 📚 Resources
 
