@@ -1,0 +1,4 @@
+-e # Don't commit draft replies
+forum-reply-*.txt
+github-issue-*.md
+*-test.xml

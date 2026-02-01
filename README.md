@@ -147,6 +147,7 @@ This table documents all settings available in the Unraid template:
 | Config Path | Path | ✅ Yes | `/mnt/user/appdata/openclaw/config` | OpenClaw configuration, sessions, and credentials |
 | Workspace Path | Path | ✅ Yes | `/mnt/user/appdata/openclaw/workspace` | Agent workspace for files, memory, and projects |
 | Projects Path | Path | ❌ Optional | `/mnt/user/appdata/openclaw/projects` | Additional path for coding projects (advanced) |
+| Homebrew Path | Path | ❌ Optional | `/mnt/user/appdata/openclaw/homebrew` | Persistent Homebrew packages. Enables skills requiring brew/go/npm. Auto-installs on first start (~60 sec). |
 | **Authentication** |
 | Gateway Token | Variable | ✅ Yes | — | Secret token for API/UI access. Generate: `openssl rand -hex 24` |
 | **LLM Providers** (at least one required) |
@@ -169,6 +170,7 @@ This table documents all settings available in the Unraid template:
 | `/root/.openclaw` | `/mnt/user/appdata/openclaw/config` | Config file, sessions, credentials, WhatsApp auth |
 | `/home/node/clawd` | `/mnt/user/appdata/openclaw/workspace` | Agent workspace (files, memory, AGENTS.md, etc.) |
 | `/projects` | `/mnt/user/appdata/openclaw/projects` | Optional coding projects folder |
+| `/home/linuxbrew/.linuxbrew` | `/mnt/user/appdata/openclaw/homebrew` | Homebrew packages (persists brew/go/npm installs) |
 
 ### Config File Reference (`openclaw.json`)
 
@@ -346,9 +348,10 @@ For those who prefer the command line:
 # Create directories
 mkdir -p /mnt/user/appdata/openclaw/config
 mkdir -p /mnt/user/appdata/openclaw/workspace
+mkdir -p /mnt/user/appdata/openclaw/homebrew
 
 # Run container (replace YOUR_TOKEN and YOUR_API_KEY)
-# Config is created automatically on first run
+# Config and Homebrew are set up automatically on first run
 docker run -d \
   --name OpenClaw \
   --network bridge \
@@ -358,11 +361,14 @@ docker run -d \
   -p 18789:18789 \
   -v /mnt/user/appdata/openclaw/config:/root/.openclaw:rw \
   -v /mnt/user/appdata/openclaw/workspace:/home/node/clawd:rw \
+  -v /mnt/user/appdata/openclaw/homebrew:/home/linuxbrew/.linuxbrew:rw \
   -e OPENCLAW_GATEWAY_TOKEN=YOUR_TOKEN \
   -e ANTHROPIC_API_KEY=sk-ant-YOUR_KEY \
   ghcr.io/openclaw/openclaw:latest \
-  sh -c "mkdir -p /root/.openclaw; [ -f /root/.openclaw/openclaw.json ] || echo '{\"gateway\":{\"mode\":\"local\",\"bind\":\"lan\",\"controlUi\":{\"allowInsecureAuth\":true},\"auth\":{\"mode\":\"token\"}}}' > /root/.openclaw/openclaw.json; exec node dist/index.js gateway --bind lan"
+  sh -c "mkdir -p /root/.openclaw /home/linuxbrew; [ -f /root/.openclaw/openclaw.json ] || echo '{\"gateway\":{\"mode\":\"local\",\"bind\":\"lan\",\"controlUi\":{\"allowInsecureAuth\":true},\"auth\":{\"mode\":\"token\"}}}' > /root/.openclaw/openclaw.json; [ -x /home/linuxbrew/.linuxbrew/bin/brew ] || { echo Installing Homebrew... && NONINTERACTIVE=1 curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash; }; eval \$(/home/linuxbrew/.linuxbrew/bin/brew shellenv) 2>/dev/null || true; exec node dist/index.js gateway --bind lan"
 ```
+
+> **Note:** First start will take ~60 seconds to install Homebrew. Subsequent starts are fast since Homebrew persists in the volume.
 
 **Required tokens:**
 - `OPENCLAW_GATEWAY_TOKEN` — Any secret value you choose. You'll need this to access the Control UI.
